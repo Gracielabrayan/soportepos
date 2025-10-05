@@ -68,9 +68,9 @@ window.addEventListener('scroll', () => {
     const header = document.querySelector('header');
     if (header) {
         if (window.scrollY > 100) {
-            header.style.background = 'rgba(10, 10, 10, 0.98)';
+            header.classList.add('scrolled');
         } else {
-            header.style.background = 'rgba(10, 10, 10, 0.95)';
+            header.classList.remove('scrolled');
         }
     }
 });
@@ -133,6 +133,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+// Generar token CSRF
+function generateCSRFToken() {
+    const randomBytes = new Uint8Array(16);
+    window.crypto.getRandomValues(randomBytes);
+    return Array.from(randomBytes, byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
+// Establecer token CSRF al cargar la página
+document.addEventListener('DOMContentLoaded', () => {
+    const csrfToken = generateCSRFToken();
+    const csrfInput = document.getElementById('csrf_token');
+    if (csrfInput) {
+        csrfInput.value = csrfToken;
+        // Almacenar en sessionStorage para validación
+        sessionStorage.setItem('csrf_token', csrfToken);
+    }
+});
+
+// Código del formulario eliminado
 
 // Add click effect to CTA buttons
 document.querySelectorAll('.btn-primary, .btn-secondary').forEach(button => {
