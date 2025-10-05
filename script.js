@@ -8,6 +8,43 @@ if (mobileMenuBtn && navLinks) {
     });
 }
 
+// Theme toggle functionality
+const themeToggle = document.getElementById('theme-toggle');
+const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+// Check for saved theme preference or use the system preference
+const getCurrentTheme = () => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        return savedTheme;
+    }
+    return prefersDarkScheme.matches ? 'dark' : 'light';
+};
+
+// Apply the current theme
+const applyTheme = (theme) => {
+    if (theme === 'light') {
+        document.body.classList.add('light-mode');
+    } else {
+        document.body.classList.remove('light-mode');
+    }
+    localStorage.setItem('theme', theme);
+};
+
+// Initialize theme
+document.addEventListener('DOMContentLoaded', () => {
+    applyTheme(getCurrentTheme());
+});
+
+// Toggle theme when button is clicked
+if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+        const currentTheme = getCurrentTheme();
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        applyTheme(newTheme);
+    });
+}
+
 // Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -73,6 +110,27 @@ document.querySelectorAll('.contact-item').forEach(item => {
     
     item.addEventListener('mouseleave', function() {
         this.style.transform = 'translateX(0) scale(1)';
+    });
+});
+
+// FAQ functionality
+document.addEventListener('DOMContentLoaded', () => {
+    const faqItems = document.querySelectorAll('.faq-item');
+    
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        
+        question.addEventListener('click', () => {
+            // Toggle active class on the clicked item
+            item.classList.toggle('active');
+            
+            // Close other items
+            faqItems.forEach(otherItem => {
+                if (otherItem !== item) {
+                    otherItem.classList.remove('active');
+                }
+            });
+        });
     });
 });
 
