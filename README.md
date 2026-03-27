@@ -17,4 +17,3 @@ Este proyecto centraliza el acceso a herramientas de diagnóstico, reportes de i
 └── assets/           # Carpeta de recursos
     ├── css/          # Estilos personalizados
     ├── js/           # Lógica del Dark Mode y navegación
-    └── img/          # Logos e iconos
